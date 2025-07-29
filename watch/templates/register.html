@@ -1,0 +1,29 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <label>Select a Profile Picture:</label>
+    <div class="profile-options">
+        {% for value, label in form.profile_picture.field.choices %}
+            <label class="profile-choice">
+                <input type="radio" name="profile_picture" value="{{ value }}" {% if form.profile_picture.value == value %}checked{% endif %}>
+                <img src="{% static 'images/profiles/' %}{{ value }}" alt="{{ label }}" class="profile-option-img">
+            </label>
+        {% endfor %}
+    </div>
+
+    {# 👇 INSERTED PREVIEW CODE HERE #}
+    {% if form.profile_picture.value %}
+      <div style="text-align: center; margin-top: 20px;">
+        <p style="color: #bbb;">You selected:</p>
+        <img src="{% static 'images/profiles/' %}{{ form.profile_picture.value }}"
+             alt="Selected Profile Picture"
+             class="profile-preview-circle">
+      </div>
+    {% endif %}
+
+    <button type="submit">Register</button>
+</form>

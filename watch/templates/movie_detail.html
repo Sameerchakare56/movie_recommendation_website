@@ -1,0 +1,144 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} - Watchtower</title>
+    <link rel="stylesheet" href="{% static 'movie_detail.css' %}">
+</head>
+<body>
+    <a href="{% url 'watch-home' %}" class="back-button">← Back to Home</a>
+    
+    <div class="centered-content-container">
+        <main class="movie-detail-container">
+
+            {% if movie.movie_link %}
+                {# Removed the Click to Watch Movie link and Movie Link display #}
+            {% endif %}
+
+            <!-- Movie Poster Section with Video Player -->
+            <section class="movie-poster-section">
+                {% if movie.movie_link %}
+                    {# If movie link exists, show video player and hide poster #}
+                    <div id="videoPlayer" class="video-player" style="display: block;">
+                        <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    {# Poster is hidden when video link exists #}
+                    {% if movie.poster %}
+                        <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster" style="display: none;">
+                    {% else %}
+                        <img src="{% static 'images/default1.png' %}" alt="{{ movie.title }}" class="movie-poster" style="display: none;">
+                    {% endif %}
+
+                {% else %}
+                    {# If no movie link, show poster and hide video player #}
+                     <div id="videoPlayer" class="video-player" style="display: none;">
+                        <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    {% if movie.poster %}
+                        <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster" style="display: block;">
+                    {% else %}
+                        <img src="{% static 'images/default1.png' %}" alt="{{ movie.title }}" class="movie-poster" style="display: block;">
+                    {% endif %}
+                {% endif %}
+            </section>
+
+            <div class="details-and-actions-row">
+                <div class="rating-section">
+                    <h2 class="rating-title">Rate</h2>
+                    <form method="POST" class="rating-form">
+                        {% csrf_token %}
+                        <div class="rating-stars">
+                            {% for i in "54321" %}
+                            <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if interaction.rating == i|add:"0" %}checked{% endif %}>
+                            <label for="star{{ i }}">★</label>
+                            {% endfor %}
+                        </div>
+                    </form>
+                    <p class="average-rating-value">Average Rating: ⭐ {{ average_rating|default:"N/A" }}</p>
+                </div>
+                <h1 class="movie-title">{{ movie.title }}</h1>
+            </div>
+
+
+            <p class="movie-description">{{ movie.description }}</p>
+
+            <div class="reviews-section">
+                <h2 class="reviews-title">Reviews</h2>
+                {% for review in reviews %}
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">{{ review.user.username }}</span>
+                        <span class="review-rating">⭐ {{ review.rating }}</span>
+                    </div>
+                    <p class="review-content">{{ review.review }}</p>
+                </div>
+                {% empty %}
+                <p>No reviews yet. Be the first to review!</p>
+                {% endfor %}
+            </div>
+
+            {% if similar_movies %}
+                <div class="similar-movies-section">
+                    <h2 class="similar-movies-title">Similar Movies You May Like</h2>
+                    <div class="movie-carousel">
+                        {% for similar_movie in similar_movies %}
+                        <div class="movie-card">
+                            <form method="POST" action="{% url 'update_watched' similar_movie.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                    <a href="{% url 'movie_detail' similar_movie.id %}" style="text-decoration: none; color: inherit;">
+                                        {% if similar_movie.poster %}
+                                            <img src="{{ similar_movie.poster.url }}" alt="{{ similar_movie.title }}" class="movie-poster">
+                                        {% else %}
+                                            <img src="{% static 'images/default2.png' %}" alt="{{ similar_movie.title }}" class="movie-poster">
+                                        {% endif %}
+                                        <div class="movie-title">{{ similar_movie.title }}</div>
+                                        <div class="movie-genres">
+                                            {% for genre in similar_movie.genres %}
+                                                <span class="genre-tag">{{ genre }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </a>
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+        </main>
+    </div> {# End of centered-content-container #}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const movieLinks = document.querySelectorAll('.movie-card-link');
+            movieLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    const movieId = this.getAttribute('data-movie-id');
+                    // Send a request to update the watched status
+                    fetch(`/update_watched/${movieId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Optionally, update UI to reflect the change
+                            console.log('Movie marked as watched');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
+
+</body>
+</html> 

@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+  {{ block.super }}
+  
+  {% if user.is_superuser %}
+    <div style="margin-top:20px;">
+      <h2>Quick Actions</h2>
+      <a href="{% url 'admin:watch_movie_add' %}" style="margin-right: 10px; padding:10px; background:#28a745; color:white; text-decoration:none; border-radius:5px;">Add Movie</a>
+      <a href="{% url 'admin:watch_movie_changelist' %}" style="margin-right: 10px; padding:10px; background:#007bff; color:white; text-decoration:none; border-radius:5px;">Edit Movie</a>
+      <a href="{% url 'admin:watch_movie_changelist' %}" style="padding:10px; background:#dc3545; color:white; text-decoration:none; border-radius:5px;">Delete Movie</a>
+    </div>
+  {% endif %}
+{% endblock %}

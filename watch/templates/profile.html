@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{% static 'profile.css' %}">
+</head>
+<body>
+
+  {% if user.is_authenticated %}
+  <div class="profile-container">
+    <a href="{% url 'watch-home' %}" class="home-link">← Back to Home</a>
+    <div class="profile-header">
+      <img src="{% if user.profile.profile_pic %}{{ user.profile.profile_pic.url }}{% else %}{% static 'images/default4.png' %}{% endif %}" 
+           alt="Profile Picture" 
+           class="profile-pic-large">
+      <h2>{{ user.username }}</h2>
+      <p class="email">{{ user.email }}</p>
+      <div class="profile-actions">
+        <a href="{% url 'profile_update' %}" class="update-profile-btn">Update Profile</a>
+        <form href="{% url 'logout' %}" class="logout-form">
+          {% csrf_token %}
+          <button type="submit" class="logout-button">Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="profile-info">
+      <p><strong>Mobile:</strong> {{ user.profile.mobile_no }}</p>
+      <p><strong>City:</strong> {{ user.profile.city }}</p>
+      <p><strong>State:</strong> {{ user.profile.state }}</p>
+      <p><strong>Birthday:</strong> {{ user.profile.birthday }}</p>
+      <p><strong>Registered on:</strong> {{ user.date_joined|date:"d M Y, H:i" }}</p>
+      <p><strong>Last login:</strong> {{ user.last_login|date:"d M Y, H:i" }}</p>
+      {% if time_spent %}
+  <p><strong>Time spent:</strong> 
+    {% if time_spent.days > 0 %}{{ time_spent.days }} days {% endif %}
+    {% if time_spent.seconds > 3600 %}{{ time_spent.seconds|divisibleby:3600 }} hrs {% endif %}
+    {% if time_spent.seconds > 60 %}
+      {{ time_spent.seconds|divisibleby:60 }} mins
+    {% endif %}
+  </p>
+{% endif %}
+    <p><strong>Time spent (after login):</strong> {{ user.last_login|timesince }} ago</p>
+     <p><strong>Time since registration:</strong> {{ user.date_joined|timesince }} ago</p>
+    </div>
+  </div>
+  {% endif %}
+
+</body>
+</html>

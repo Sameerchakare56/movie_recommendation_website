@@ -1,0 +1,113 @@
+/* Reset and background */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+/* Home link styling */
+.home-link {
+  display: inline-block;
+  color: #ff3b3b;
+  text-decoration: none;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.home-link:hover {
+  color: #e62e2e;
+}
+
+/* Container for the entire profile block */
+.profile-container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 30px;
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+/* Header block: image + name */
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-pic-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #ff3b3b;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.profile-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #ff3b3b;
+}
+
+.profile-header .email {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+/* Profile actions */
+.profile-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.update-profile-btn {
+  display: inline-block;
+  background: #e50914;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.update-profile-btn:hover {
+  background: #f40612;
+}
+
+.logout-form {
+  display: inline;
+}
+
+.logout-button {
+  background-color: #ff3b3b;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 15px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #e62e2e;
+}
+
+/* Info block */
+.profile-info {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.profile-info p {
+  font-size: 15px;
+  margin: 8px 0;
+  padding: 8px;
+  background-color: #2a2a2a;
+  border-radius: 6px;
+}

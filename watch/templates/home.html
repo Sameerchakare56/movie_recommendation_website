@@ -1,0 +1,187 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Watchtower</title>
+
+  <!-- Link to the CSS file -->
+  <link rel="stylesheet" href="{% static 'home.css' %}">
+
+</head>
+<body>
+
+ <header class="main-header">
+  <div class="logo">Watchtower</div>
+  <nav class="navbar">
+    <a href="{% url 'watch-home' %}" class="active">
+      <img src="{% static 'images/home.png' %}" alt="Home" style="width: 24px; height: 24px;">
+      <span>Home</span>
+    </a>
+    <a href="{% url 'Movies' %}">
+      <img src="{% static 'images/film.png' %}" alt="Movies" style="width: 24px; height: 24px;">
+      <span>Movies</span>
+    </a>
+    <a href="{% url 'trending' %}">
+      <img src="{% static 'images/growth.png' %}" alt="Trending" style="width: 24px; height: 24px;">
+      <span>Trending</span>
+    </a>
+    <div class="search-container">
+      <form action="{% url 'search_movies' %}" method="GET" class="search-form">
+        <input type="text" name="q" placeholder="Search movies..." class="search-input">
+        <button type="submit" class="search-button">
+          <img src="{% static 'images/search.png' %}" alt="Search" style="width: 20px; height: 20px;">
+        </button>
+      </form>
+    </div>
+    {% if user.is_authenticated %}
+     
+      <div class="profile-dropdown">
+        <a href="#" class="profile-pic-link">
+          <img 
+            src="{% if user.profile.profile_pic and user.profile.profile_pic.url %}{{ user.profile.profile_pic.url }}{% else %}{% static 'images/default3.png' %}{% endif %}" 
+            alt="Profile Picture" 
+            class="profile-pic"
+          />
+        </a>
+        <div class="profile-dropdown-content">
+          <div class="profile-info">
+            <p><strong>{{ user.username }}</strong></p>
+            {% if time_spent %}
+            <p>Last login: {{ time_spent|default:"Just now" }}</p>
+            {% endif %}
+          </div>
+          <div class="profile-actions">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile_update' %}">Edit Profile</a>
+            <form method="post" action="{% url 'logout' %}" class="logout-form">
+              {% csrf_token %}
+              <button type="submit" class="logout-button">Logout</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <a href="{% url 'login' %}" class="login-btn">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+
+<main>
+
+{% if trending_movies %}
+<section class="movie-section">
+  <h1>Trending Movies</h1>
+  <div class="movie-carousel">
+    {% for movie in trending_movies %}
+      <div class="movie-card">
+        <a href="{% url 'movie_detail' movie.id %}" style="text-decoration: none; color: inherit;">
+          {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster">
+          {% else %}
+            <img src="/static/images/default2.png" alt="{{ movie.title }}" class="movie-poster">
+          {% endif %}
+          <div class="movie-title">{{ movie.title }}</div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="movie-section">
+  <h1>All Movies</h1>
+  <div class="movie-carousel">
+    {% for movie in movies %}
+      <div class="movie-card">
+        <a href="{% url 'movie_detail' movie.id %}" style="text-decoration: none; color: inherit;">
+          {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" 
+                 onerror="this.onerror=null;this.src='/static/images/default1.png';"
+                 alt="{{ movie.title }}" 
+                 class="movie-poster">
+          {% else %}
+            <img src="/static/images/default1.png" 
+                 alt="{{ movie.title }}" 
+                 class="movie-poster">
+          {% endif %}
+          <div class="movie-title">{{ movie.title }}</div>
+        </a>
+      </div>
+    {% empty %}
+      <p>No movies found.</p>
+    {% endfor %}
+  </div>
+</section>
+{% if user.is_authenticated and recommended_movies %}
+<section class="movie-section">
+  <h1>Recommended for You</h1>
+  <div class="movie-carousel">
+    {% for movie in recommended_movies %}
+      <div class="movie-card">
+        <a href="{% url 'movie_detail' movie.id %}" style="text-decoration: none; color: inherit;">
+          {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster">
+          {% else %}
+            <img src="/static/images/default1.png" alt="{{ movie.title }}" class="movie-poster">
+          {% endif %}
+          <div class="movie-title">{{ movie.title }}</div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+</main>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <h2 class="footer-brand">Watchtower</h2>
+      <p class="footer-tagline">Your favorite place for movies and entertainment</p>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-column">
+        <h3>About Us</h3>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Help</h3>
+        <ul>
+          <li><a href="#">Support Center</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Discover</h3>
+        <ul>
+          <li><a href="#">New Releases</a></li>
+          <li><a href="#">Top Rated</a></li>
+          <li><a href="#">Categories</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Watchtower. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

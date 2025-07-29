@@ -1,0 +1,482 @@
+/* Basic styling for the body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Back button */
+.back-button {
+    display: inline-block;
+    margin: 20px;
+    color: #e50914;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #ff3b3b;
+}
+
+/* Main container for movie details */
+.movie-detail-container {
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 30px auto; /* Ensure the main container is centered */
+    padding: 0 2rem;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Container for the horizontal items below the title */
+.details-and-actions-row {
+    width: 100%;
+    max-width: 1000px; /* Slightly increased max width for more horizontal space */
+    margin: 1.5rem auto 0; /* Center it below the movie title */
+    padding: 1rem;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    
+    /* Flexbox properties for horizontal layout */
+    display: flex;
+    flex-direction: row; /* Set to row for left-to-right visual order */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-between; /* Distribute items evenly with space between them */
+    align-items: center;
+    gap: 1.5rem; /* Space between the items */
+}
+
+/* Movie Title (now displayed as a flex item within the row) */
+.movie-title {
+    color: #fff;
+    font-size: 2.5rem; /* Larger font size for prominence */
+    margin: 0; /* Reset margins as it's now a flex item */
+    text-align: center;
+    flex: 2 1 auto; /* Allow it to grow, shrink, and take automatic width, prioritizing larger space */
+}
+
+/* Apply flex properties directly to the children of details-and-actions-row for horizontal layout */
+.play-status-section,
+.rating-section,
+.average-rating-section {
+    flex: 1 1 auto; /* Allow items to grow and shrink, with automatic basis */
+    min-width: 180px; /* Ensure a reasonable minimum width before wrapping */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Adjust rating section for flex layout */
+.rating-section {
+    background-color: transparent; /* Remove background, as it's now part of the row */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove border-radius */
+    margin: 0; /* Remove margin */
+    max-width: unset; /* Remove max-width */
+}
+
+/* Adjust average rating section for flex layout */
+.average-rating-section {
+    background-color: transparent; /* Remove background, it's now part of the row */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove border-radius */
+    margin: 0; /* Remove margin */
+    max-width: unset; /* Remove max-width */
+    display: flex;
+    flex-direction: column; /* Stack title and value */
+    align-items: center;
+}
+
+.movie-meta {
+    display: flex;
+    flex-direction: column; /* Keep internal elements (stars, year) stacked */
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem; /* Space above movie meta */
+    max-width: 900px; /* Align with other sections */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Other sections below the main details row */
+.movie-description {
+    color: #aaa;
+    margin-top: 2rem; /* Add space below the movie meta (or previous row) */
+    line-height: 1.6;
+    max-width: 900px; /* Constrain description width */
+    text-align: center;
+}
+
+.reviews-section {
+    margin: 2rem auto 0; /* Center block element and space it from description */
+    max-width: 600px; /* Match movie info section max-width */
+}
+
+.play-icon-link {
+    display: block;
+    border: 3px solid transparent; /* Default transparent border */
+    border-radius: 50%; /* Make it round */
+    padding: 10px;
+    transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease; /* Added transform for animation */
+    text-align: center; /* Center the text */
+    color: #fff; /* Text color */
+    font-weight: bold; /* Bold text */
+    background-color: #333; /* Dark background for contrast */
+}
+
+.play-icon-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.play-icon-link.watched {
+    border-color: #e50914; /* Red border when watched */
+    animation: pulse 1s infinite; /* Animation for watched status */
+    background-color: #e50914; /* Red background when watched */
+}
+
+.watch-text {
+    display: block; /* Ensure the text is block-level */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.play-icon-link:hover .watch-text {
+    color: #e50914; /* Change text color on hover */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.play-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.movie-meta span {
+    margin-right: 0; /* Remove previous margin */
+    color: #ccc;
+    font-size: 1rem; /* Slightly larger font */
+}
+
+.average-rating-title {
+    color: #fff;
+    font-size: 1rem; /* Smaller font size */
+    margin-bottom: 0.2rem;
+}
+
+.average-rating-value {
+    color: #ffc107; /* Gold color for stars */
+    font-size: 1.5rem; /* Smaller font size */
+    font-weight: bold;
+}
+
+/* Play Movie Top Link */
+.play-movie-top-link {
+    display: block;
+    width: fit-content;
+    margin-top: 20px; /* Keep top margin */
+    margin-bottom: 10px; /* Keep bottom margin */
+    padding: 10px 20px;
+    background-color: #e50914;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.play-movie-top-link:hover {
+    background-color: #f40612;
+}
+
+/* Movie Link Display */
+.movie-link-display {
+    color: #aaa;
+    margin-top: 10px; /* Keep top margin */
+    margin-bottom: 20px; /* Keep bottom margin */
+    font-size: 0.9rem;
+    word-break: break-all;
+    max-width: 90%;
+    box-sizing: border-box;
+}
+
+/* Movie Poster Section */
+.movie-poster-section {
+    position: relative; /* Needed to position the video player */
+    width: 100%; /* Allow it to take full width in the stacked layout */
+    max-width: 900px; /* Increased max width for larger video, adjust as needed */
+    margin: 0 auto 2rem; /* Center the poster section and add space below */
+    overflow: hidden; /* Hide anything overflowing, especially for embedded video */
+    background-color: #000; /* Dark background for the section */
+    display: flex; /* Use flex to help center content */
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px; /* Added back border-radius */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* Added back box-shadow */
+    box-sizing: border-box; /* Include padding in width calculation */
+    /* Added aspect ratio for the container */
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (9 / 16 * 100) */
+}
+
+.movie-poster-section img.movie-poster {
+    display: block;
+    width: 100%;
+    height: 100%; /* Ensure image covers the container */
+    object-fit: cover;
+    border-radius: 12px; /* Ensure image inside also has rounded corners */
+    position: absolute; /* Position over the container */
+    top: 0;
+    left: 0;
+}
+
+/* Video Player Container */
+.video-player {
+    position: absolute; /* Position over the poster area */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; /* Use flex to center the iframe */
+    justify-content: center;
+    align-items: center;
+    background-color: #000; /* Black background for video area */
+    overflow: hidden; /* Hide anything overflowing */
+    z-index: 1; /* Ensure it's above the poster when visible */
+}
+
+.video-player iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Main content area for flexible layout */
+.main-content-area {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center items when they wrap */
+    gap: 2rem; /* Space between columns */
+    width: 100%;
+    max-width: 1200px; /* Match movie-detail-container max-width */
+    margin-top: 2rem;
+}
+
+/* Left sidebar for play icon and watched status */
+.left-sidebar {
+    flex: 0 0 auto; /* Don't grow, don't shrink, take content width */
+    padding: 1rem;
+    text-align: center; /* Center content for the play icon */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items for the play icon */
+    gap: 1rem;
+}
+
+.watched-checkbox {
+    display: none; /* Hide the old checkbox */
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #f40612;
+}
+
+.reviews-title {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.review-card {
+    background-color: #1e1e1e;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem auto; /* Center review cards */
+    border-left: 4px solid #ff3b3b;
+    max-width: 550px; /* Add max-width if needed for centering */
+    text-align: left; /* Align review content to the left */
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    text-align: left; /* Ensure header content is not centered */
+}
+
+.reviewer-name {
+    font-weight: bold;
+    color: #fff;
+}
+
+.review-rating {
+    color: #ffc107; /* Gold color for stars */
+    font-size: 1.1rem;
+}
+
+.review-content {
+    color: #aaa;
+    line-height: 1.6;
+    text-align: left; /* Ensure review content is not centered */
+}
+
+.reviews-section p {
+    text-align: center;
+    color: #888;
+}
+
+/* Similar Movies Section */
+.similar-movies-section {
+    margin-top: 3rem;
+}
+
+.similar-movies-title {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.movie-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 2rem;
+    padding: 1rem 0;
+    margin-bottom: 3rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Individual movie card in carousel */
+.similar-movies-section .movie-card {
+     flex: 0 0 150px; /* Smaller size for similar movies */
+     background: #1e1e1e; /* Darker background */
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+     transition: transform 0.2s;
+     text-align: center;
+}
+
+.similar-movies-section .movie-card:hover {
+     transform: translateY(-5px);
+}
+
+.similar-movies-section .movie-poster {
+     width: 100%;
+     height: 225px; /* Adjust height for smaller card */
+     object-fit: cover;
+}
+
+.similar-movies-section .movie-title {
+     padding: 0.8rem;
+     font-size: 0.9rem;
+     color: #ccc;
+     text-align: center;
+}
+
+.movie-genres {
+    padding-bottom: 0.8rem;
+}
+
+.genre-tag {
+    display: inline-block;
+    background-color: #333;
+    color: #aaa;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .details-and-actions-row {
+        flex-direction: column; /* Stack vertically on small screens */
+        gap: 1rem;
+        padding: 1rem;
+        margin-top: 1rem; /* Adjust margin */
+    }
+
+    .movie-title {
+        font-size: 2rem;
+        margin-top: 0; /* Reset */
+        margin-bottom: 1rem; /* Keep some space when stacked */
+        flex: 0 1 auto; /* Allow stacking, no forced full width */
+    }
+
+    .play-status-section,
+    .rating-section,
+    .average-rating-section {
+        width: 100%; /* Take full width when stacked */
+        min-width: unset;
+        flex-basis: auto; /* Allow items to stack */
+    }
+
+    .movie-meta {
+        margin-top: 1rem;
+    }
+
+    .movie-description {
+        margin-top: 1.5rem;
+    }
+
+    .main-content-area {
+        flex-direction: column; /* Stack columns vertically on small screens */
+        align-items: center;
+    }
+
+    .left-sidebar, .center-content, .right-sidebar {
+        min-width: unset;
+        width: 100%;
+        padding: 1rem 0;
+        text-align: center; /* Center content on small screens */
+        align-items: center; /* Center items on small screens */
+    }
+
+    .movie-detail-container {
+        padding: 0 1rem;
+    }
+
+    .movie-poster-section {
+        max-width: 300px;
+    }
+
+    .movie-info-section {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    .play-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+} 
