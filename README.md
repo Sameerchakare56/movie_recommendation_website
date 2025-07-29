@@ -53,5 +53,8 @@ The backend uses a hybrid recommendation system:
 | Scikit-learn  | ML for collaborative filtering            |
 | TensorFlow    | Deep learning model for predictions       |
 
+<img width="1773" height="824" alt="Screenshot 2025-07-29 205704" src="https://github.com/user-attachments/assets/28f859e0-a69d-4eb1-937c-8696e47b8343" />
+
+
 
 
